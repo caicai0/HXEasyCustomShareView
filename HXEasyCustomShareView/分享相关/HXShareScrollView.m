@@ -37,7 +37,6 @@
 }
 
 - (void)setShareAry:(NSArray *)shareAry delegate:(id)delegate {
-    
     //先移除之前的View
     if (self.subviews.count > 0) {
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -51,7 +50,6 @@
         //单行
         self.contentSize = CGSizeMake(_originX+shareAry.count*(_icoWidth+_horizontalSpace),self.frame.size.height);
     }
-    
     //遍历标签数组,将标签显示在界面上,并给每个标签打上tag加以区分
     for (NSDictionary *shareDic in shareAry) {
         

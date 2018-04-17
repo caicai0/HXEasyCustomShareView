@@ -35,6 +35,7 @@
 @property (nonatomic,assign) NSInteger firstCount;//第一行分享媒介数量,分享媒介最多显示2行,如果第一行显示了全部则不显示第二行
 @property (nonatomic,strong) UIView *footerView;//尾部其他自定义View
 @property (nonatomic,strong) UIButton *cancleButton;//取消
+@property (nonatomic,strong) UIView *bottomView;//底部填充
 @property (nonatomic,assign) BOOL showsHorizontalScrollIndicator;//是否显示滚动条
 
 - (void)setShareAry:(NSArray *)shareAry delegate:(id)delegate;
