@@ -13,7 +13,7 @@
 
 @protocol HXShareScrollViewDelegate <NSObject>
 
-- (void)shareScrollViewButtonAction:(HXShareScrollView *)shareScrollView title:(NSString *)title;
+- (void)shareScrollViewButtonAction:(HXShareScrollView *)shareScrollView title:(NSString *)title tag:(NSInteger)tag;
 
 @end
 

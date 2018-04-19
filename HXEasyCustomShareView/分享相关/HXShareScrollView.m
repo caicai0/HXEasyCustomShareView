@@ -7,6 +7,7 @@
 
 #import "HXShareScrollView.h"
 #import "HXEasyCustomShareView.h"
+#import "UIButton+layout.h"
 
 @implementation HXShareScrollView
 
@@ -66,33 +67,29 @@
     NSString *image = dic[@"image"];
     NSString *highlightedImage = dic[@"highlightedImage"];
     NSString *title = [dic[@"title"] length] > 0 ? dic[@"title"] : @"";
+    id tagObject = dic[@"tag"];
+    NSInteger tag = 0;
+    if (tagObject && [tagObject respondsToSelector:@selector(integerValue)]) {
+        tag = [tagObject integerValue];
+    }
     
-    UIImage *icoImage = [UIImage imageNamed:image];
-    
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    UIButton *view = [[UIButton alloc] initWithFrame:frame];
+    view.tag = tag;
     view.backgroundColor = [UIColor clearColor];
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake((view.frame.size.width-icoImage.size.width)/2, 0, icoImage.size.width, icoImage.size.height);
-    button.titleLabel.font = [UIFont systemFontOfSize:_titleSize];
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [view setTitle:title forState:UIControlStateNormal];
+    [view setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    view.titleLabel.font = [UIFont systemFontOfSize:_titleSize];
+    
     if (image.length > 0) {
-        [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+        [view setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     }
     if (highlightedImage.length > 0) {
-        [button setImage:[UIImage imageNamed:highlightedImage] forState:UIControlStateHighlighted];
+        [view setImage:[UIImage imageNamed:highlightedImage] forState:UIControlStateHighlighted];
     }
-    [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    [view addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, button.frame.origin.y +button.frame.size.height+ _lastlySpace, view.frame.size.width, _titleSize)];
-    label.textColor = _titleColor;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:_titleSize];
-    label.text = title;
-    [view addSubview:label];
+    [view setImagePosition:LXMImagePositionTop spacing:5];
     
     return view;
 }
@@ -103,8 +100,8 @@
 }
 
 - (void)buttonAction:(UIButton *)sender {
-    if (_myDelegate && [_myDelegate respondsToSelector:@selector(shareScrollViewButtonAction:title:)]) {
-        [_myDelegate shareScrollViewButtonAction:self title:sender.titleLabel.text];
+    if (_myDelegate && [_myDelegate respondsToSelector:@selector(shareScrollViewButtonAction:title:tag:)]) {
+        [_myDelegate shareScrollViewButtonAction:self title:sender.titleLabel.text tag:sender.tag];
     }
 }
 
